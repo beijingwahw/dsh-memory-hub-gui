@@ -5,7 +5,7 @@
 
 `dsh-memory-hub` 插件 roadmap 的最后一项「跨平台 GUI 记忆管理（桌面级应用：编辑/导入导出 UI/多库管理）」的独立应用级交付物。领域语义（存储/检索/蒸馏协议/加密管线/导入幂等）**全部来自插件的 [`./core` 纯库出口](../dsh-memory-hub/src/core.ts)**——GUI 不复制任何实现，插件升维 GUI 免费受益。
 
-![检索视图](smoke-artifacts/04-检索命中.png)
+![检索视图](docs/screenshots/04-检索命中.png)
 
 ## 功能总览
 
