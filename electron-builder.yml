@@ -1,0 +1,55 @@
+# 跨平台打包：Windows / macOS / Linux（esbuild 全量打包 → 零运行时 node_modules）
+appId: io.github.beijingwahw.dsh-memory-hub-gui
+productName: DSH Memory Hub
+copyright: MIT License
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/**
+  - package.json
+  - LICENSE
+
+asar: true
+compression: maximum
+electronLanguages:
+  - zh-CN
+  - en-US
+
+win:
+  target:
+    - nsis
+    - portable
+  icon: build/icon.png
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: DSH Memory Hub
+  artifactName: ${productName}-${version}-setup.${ext}
+
+portable:
+  artifactName: ${productName}-${version}-portable.${ext}
+
+mac:
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+  category: public.app-category.productivity
+  icon: build/icon.png
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+dmg:
+  title: ${productName} ${version}
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+linux:
+  target:
+    - AppImage
+    - deb
+  category: Utility
+  icon: build/icon.png
+  artifactName: ${productName}-${version}-${arch}.${ext}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DSH Memory Hub — 跨平台记忆管理</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar" aria-label="记忆库列表"></aside>
+      <main class="main">
+        <header class="topbar" aria-label="当前库与视图切换"></header>
+        <section class="content" data-view="memory" aria-live="polite"></section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

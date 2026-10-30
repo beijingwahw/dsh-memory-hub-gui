@@ -1,0 +1,36 @@
+{
+  "name": "dsh-memory-hub-gui",
+  "productName": "DSH Memory Hub",
+  "version": "1.0.0",
+  "description": "dsh-memory-hub 跨平台桌面记忆管理：多库管理 / 编辑 / 检索 / 导入导出 / 加密口令管理（Windows · macOS · Linux）",
+  "type": "module",
+  "main": "dist/main/index.cjs",
+  "author": "dsh-memory-hub",
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/build.mjs && electron .",
+    "dev": "node scripts/build.mjs && electron . --dev",
+    "smoke": "node scripts/build.mjs && electron . --smoke",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run typecheck && npm run format:check && npm test && npm run build",
+    "icon": "node scripts/make-icon.mjs",
+    "dist": "node scripts/build.mjs && electron-builder",
+    "dist:win": "node scripts/build.mjs && electron-builder --win",
+    "dist:mac": "node scripts/build.mjs && electron-builder --mac",
+    "dist:linux": "node scripts/build.mjs && electron-builder --linux"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "dsh-memory-hub": "file:../dsh-memory-hub",
+    "electron": "^39.2.0",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.25.5",
+    "prettier": "^3.6.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.4"
+  }
+}
