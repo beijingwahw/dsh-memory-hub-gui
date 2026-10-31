@@ -14,6 +14,10 @@ jobs:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: dsh-memory-hub-gui
+        shell: bash
     steps:
       - name: Checkout GUI 仓库
         uses: actions/checkout@v4
@@ -27,12 +31,10 @@ jobs:
           path: dsh-memory-hub
 
       - name: 构建插件 lib/（core 子路径导出）
+        working-directory: dsh-memory-hub
         run: |
-          cd ../dsh-memory-hub
-          npm ci || npm install --no-audit --no-fund
+          npm ci --no-audit --no-fund || npm install --no-audit --no-fund
           npm run build
-        shell: bash
-        working-directory: dsh-memory-hub-gui
 
       - uses: actions/setup-node@v4
         with:
@@ -54,13 +56,14 @@ jobs:
 
       - name: Linux 显示依赖（xvfb）
         if: runner.os == 'Linux'
+        working-directory: .
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb libgtk-3-0 libnss3 libasound2t64 libgbm1
 
       - name: 无头冒烟（16 步 E2E + 截图门禁）
-        run: npm run smoke
-        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then xvfb-run -a npm run smoke; else npm run smoke; fi
 
       - name: 上传冒烟截图
         if: always()
@@ -85,6 +88,10 @@ jobs:
           - os: ubuntu-latest
             dist: --linux
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: dsh-memory-hub-gui
+        shell: bash
     steps:
       - uses: actions/checkout@v4
         with:
@@ -94,24 +101,19 @@ jobs:
           repository: beijingwahw/dsh-memory-hub
           path: dsh-memory-hub
       - name: 构建插件 lib/
+        working-directory: dsh-memory-hub
         run: |
-          cd ../dsh-memory-hub
-          npm ci || npm install --no-audit --no-fund
+          npm ci --no-audit --no-fund || npm install --no-audit --no-fund
           npm run build
-        shell: bash
-        working-directory: dsh-memory-hub-gui
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: 安装依赖
         run: npm install --no-audit --no-fund
-        working-directory: dsh-memory-hub-gui
       - name: 生成图标
         run: npm run icon
-        working-directory: dsh-memory-hub-gui
       - name: 打包
         run: npx electron-builder ${{ matrix.dist }} --publish never
-        working-directory: dsh-memory-hub-gui
       - uses: actions/upload-artifact@v4
         with:
           name: release-${{ matrix.os }}
