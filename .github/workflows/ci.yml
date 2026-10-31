@@ -62,6 +62,9 @@ jobs:
           sudo apt-get install -y xvfb libgtk-3-0 libnss3 libasound2t64 libgbm1
 
       - name: 无头冒烟（16 步 E2E + 截图门禁）
+        env:
+          # Linux runner 以 root 运行：禁用 Chromium SUID 沙箱（仅 CI 冒烟环境）
+          ELECTRON_DISABLE_SANDBOX: ${{ runner.os == 'Linux' && '1' || '0' }}
         run: |
           if [ "$RUNNER_OS" = "Linux" ]; then xvfb-run -a npm run smoke; else npm run smoke; fi
 
